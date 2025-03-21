@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root{
+    /*Trativa para colocar o 1 rem como 10px*/
+    font-size: 62.5%;
+    --background-color:#dee2e6;
+    --button-hover:#cbc7c5;
+    --white-color-text:#FFF;
+    --black-color-text:#0b090a;
+    --header-background:#61656b;
+  }
+  
+  body{
+    font-family: sans-serif,cursive;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  @media (max-width:500px){
+    :root{
+      font-size: 50%;
+      }
+  }

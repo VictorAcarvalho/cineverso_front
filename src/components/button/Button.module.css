@@ -1,0 +1,38 @@
+button{
+    font-family: sans-serif;
+    border: none;
+    border-radius: 0.6rem;
+}
+
+.small{
+    padding: 0.6rem;
+    font-size: 1.2rem;
+}
+
+.medium{
+    padding: 0.8;
+    font-size: 1.4rem ;
+}
+
+.large{
+    padding: 1rem ;
+    font-size: 2rem;
+}
+
+.primary:hover{
+    background-color: var(--button-hover);
+    cursor: pointer;
+}
+
+.secondary{
+    color: var(--background-color);
+    background-color: var(--header-background);
+}
+
+.secondary:hover{
+    background-color: var( --black-color-text);
+    cursor: pointer;
+}
+
+
+
