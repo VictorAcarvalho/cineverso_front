@@ -10,8 +10,9 @@ function MovieBox(props: Movie) {
             <p className={styles.itemTitle}>
                 {props.title}
             </p>
-            <p> {props.description}</p>
-            <p>{props.averageRating}</p>
+            <p className={styles.itemDescription} > {props.description}</p>
+           
+            <p className={styles.itemRating}> &#11088; Pontuação: {props.averageRating}</p>
         </div>
     );
 

@@ -15,10 +15,22 @@
     -moz-box-shadow: 0px 10px 27px -7px rgba(0,0,0,0.75);
 }
 .itemTitle{
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin: 1rem;
+}
+.itemDescription{
+    font-size: 1rem ;
+    font-weight: 500;
+    margin: 0.8rem;
 }
 .itemImage{
-    width: 9rem;
+    width: 8rem;
+    height: auto;
+    border-radius: 0.8rem;
+}
+
+.itemRating{
+    font-weight: 800;
+    margin: 0.8rem;
 }

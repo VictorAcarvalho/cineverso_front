@@ -12,3 +12,10 @@ export interface Movie{
     studio: string,
     picture: string,
 }
+
+export interface MovieSearchParams {
+    title?: string;
+    director?: string;
+    genre?: string;
+    actor?: string;
+}

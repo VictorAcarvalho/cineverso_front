@@ -10,7 +10,7 @@ interface ApiResponse<T> {
 export class HttpService {
   private api: AxiosInstance;
 
-  constructor( config?: AxiosRequestConfig) {
+  constructor(config?: AxiosRequestConfig) {
     this.api = axios.create({
       baseURL: BASE_URL,
       timeout: 10000,
@@ -20,32 +20,31 @@ export class HttpService {
       ...config,
     });
 
+    this.api.interceptors.request.use(config => {
+      const token = localStorage.getItem('accesstoken')?.trim();
+      console.log('Token recuperado do localStorage:', token);
+      
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        console.log('Nenhum token encontrado no localStorage');
+      }
+      return config;
+    });
+    
     this.api.interceptors.response.use(
       (response) => response,
-      (error) => this.handleError(error)
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Erro 401 detectado, redirecionando para login');
+          localStorage.removeItem('accesstoken');
+          localStorage.removeItem('expiresIn');
+          window.location.href = '/login';
+        }
+        return this.handleError(error);
+      }
     );
-
-    this.api.interceptors.request.use(config => {
-        const token = localStorage.getItem('accesstoken');
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      });
-      
-        this.api.interceptors.response.use(
-        response => response,
-        error => {
-          if (error.response && error.response.status === 401) {
-            localStorage.removeItem('accesstoken');
-            localStorage.removeItem('expiresIn');
-            window.location.href = '/login';
-          }
-          return Promise.reject(error);
-        }
-      );
   }
-  
 
   public async get<T>(path: string, params?: any): Promise<ApiResponse<T>> {
     const response: AxiosResponse = await this.api.get(path, { params });
@@ -53,7 +52,7 @@ export class HttpService {
   }
 
   public async post<T>(path: string, data?: any): Promise<ApiResponse<T>> {
-    const response: AxiosResponse = await this.api.post( path, data);
+    const response: AxiosResponse = await this.api.post(path, data);
     return this.processResponse<T>(response);
   }
 
@@ -86,14 +85,18 @@ export class HttpService {
       message: error.response?.data?.message || 'Ocorreu um erro na requisição',
     };
 
+    console.error('Erro na requisição:', error);
     return Promise.reject(errorResponse);
   }
 
+  
   public setAuthToken(token: string): void {
+    console.log('setAuthToken chamado com token:', token);
     this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
   public clearAuthToken(): void {
+    console.log('clearAuthToken chamado');
     delete this.api.defaults.headers.common['Authorization'];
   }
 }

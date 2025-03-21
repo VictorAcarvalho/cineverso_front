@@ -20,7 +20,7 @@ const App: React.FC = () => {
           </PrivateRoute>
          } />
         
-        {/* Rota para erros 404 - página não encontrada */}
+       
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

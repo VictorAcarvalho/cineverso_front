@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/header/Header';
 import Swal from 'sweetalert2';
-import { getAllMovies } from '../../services/api';
-import { Movie } from '../../types/movies.types';
+import { getAllMovies, searchMoviesByParams } from '../../services/api';
+import { Movie, MovieSearchParams } from '../../types/movies.types';
 import MovieBox from '../../components/movieBox/MovieBox';
+import styles from './HomePage.module.css';
+import SearchInput from '../../components/searchInput/SearchInput';
 
 const HomePage: React.FC = () => {
 
@@ -29,14 +33,28 @@ const HomePage: React.FC = () => {
     handleData();
 
   }, []);
-
+  
+  const handleSearchMovies = async (title: string, director: string, genre: string, actor: string) => {
+    try {
+      const searchParams: MovieSearchParams = { title, director, genre, actor };
+      const searchResponse = await searchMoviesByParams(searchParams); 
+      setMovies(searchResponse); 
+    } catch (error: any) {
+      Swal.fire({
+        title: 'Erro na Busca',
+        text: 'Não foi possível realizar a busca.',
+        icon: 'error',
+      });
+    }
+  };
 
 
   return (
     <>
       <Header />
-      <div>
-        <ul>
+      <SearchInput onSearch={handleSearchMovies} /> 
+      <div className={styles.collumContainer}>
+        <ul className={styles.rowContainer}>
           {
             movies.map((movie) => (
               <MovieBox key={movie.movieId} {...movie}/>
